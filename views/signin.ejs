@@ -5,6 +5,13 @@
   </head>
   <body>
     <%- include ('./partials/script') %>
+    <% if (locals.error) { %>
+        <div class="alert-container">
+            <div class="alert alert-danger" role="alert">
+                <%= locals.error %>
+            </div>
+        </div>
+    <% } %>
     <div class="container mx-50" >
         <form action="/user/signin" method="post">
 
