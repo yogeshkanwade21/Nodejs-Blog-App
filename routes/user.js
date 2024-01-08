@@ -11,14 +11,17 @@ router.get('/signup', (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
+    const { email, password } = req.body;
     try {
-        const { email, password } = req.body;
-        const user = await User.matchPassword(email, password);
-        res.redirect('/home');
+        const token = await User.matchPasswordAndGenerateToken(email, password);
+        return res.cookie('token', token).redirect('/home');
     } catch (error) {
         console.error('catch block of route, error is: ', error.message);
         console.error('redirecting to login page');
-        res.redirect('/user/signin');
+
+        return res.render('signin', {
+            error: error.message,
+        });
     }
 })
 

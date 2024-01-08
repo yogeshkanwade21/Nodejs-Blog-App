@@ -14,7 +14,6 @@ function createTokenForUser(user) {
 }
 
 function verifyToken(token) {
-
     try {
         const payload = jwt.verify(token, secretPhrase,(err, user)=> {
             console.log("token verified", payload);
