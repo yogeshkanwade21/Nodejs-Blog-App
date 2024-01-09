@@ -14,14 +14,9 @@ function createTokenForUser(user) {
 }
 
 function verifyToken(token) {
-    try {
-        const payload = jwt.verify(token, secretPhrase,(err, user)=> {
-            console.log("token verified", payload);
-            return payload;
-        });
-    } catch (error) {
-        console.error('Token verification failed:', err.message);
-    }
+
+    const decodedUser = jwt.verify(token, secretPhrase);
+    return decodedUser;
 }
 
 module.exports = {createTokenForUser, verifyToken};
