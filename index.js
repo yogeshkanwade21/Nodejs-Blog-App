@@ -1,5 +1,6 @@
 const express = require('express');
 const userRouter = require('./routes/user');
+const blogRouter = require('./routes/blog');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { checkAuthenticationCookie } = require('./middlewares/authentication');
@@ -28,6 +29,9 @@ app.get('/home', (req, res) => {
 
 // user routes
 app.use('/user', userRouter);
+
+// blog routes
+app.use('/blog', blogRouter);
 
 // server configuration
 const server = app.listen(PORT, ()=> {
