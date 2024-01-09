@@ -14,7 +14,9 @@ router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
     try {
         const token = await User.matchPasswordAndGenerateToken(email, password);
-        return res.cookie('token', token).redirect('/home');
+        // console.log(token);
+        res.cookie("token", token);
+        res.redirect('/home');
     } catch (error) {
         console.error('catch block of route, error is: ', error.message);
         console.error('redirecting to login page');
@@ -34,6 +36,10 @@ router.post('/signup', async (req, res) => {
     });
 
     return res.redirect('/home');
+})
+
+router.get('/logout', (req, res) => {
+    res.clearCookie("token").redirect('/home');
 })
 
 module.exports = router;
