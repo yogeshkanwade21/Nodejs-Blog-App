@@ -17,7 +17,13 @@ const storage = multer.diskStorage({
     const upload = multer({ storage });
 
 router.get('/add-new', (req, res) => {
-    res.render('addBlog');
+    if (req.user)  {
+        return res.render('addBlog', {
+            user : req.user
+        });
+    }
+
+    return res.redirect('/user/signin');
 })
 
 router.post('/', upload.single("coverImage") , async (req, res) => {
