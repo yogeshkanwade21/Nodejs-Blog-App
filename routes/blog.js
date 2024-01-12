@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = Router();
 const Blog = require('../models/blog');
+const Comment = require('../models/comments');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -37,15 +38,32 @@ router.post('/', upload.single("coverImage") , async (req, res) => {
         coverImage: `/blogCoverImages/${req.file.filename}`
     })
     // console.log(blog);
-    res.redirect(`/home`);
+    res.redirect(`/blog/${blog._id}`);
 })
 
-router.get('/:id', async (req, res) => {
-    const blog = await Blog.findById(req.params.id).populate('createdBy');
+router.get('/:blogId', async (req, res) => {
+    const blog = await Blog.findById(req.params.blogId).populate('createdBy');
+    const comments = await Comment.find({ blogId: req.params.blogId}).populate('commentedBy').sort({createdAt: -1});
+    console.log(comments);
     return res.render('blog', {
         blog,
+        comments,
         user: req.user
     })
+})
+
+// comments
+router.post('/comment/:blogId', async (req, res) => {
+    const { content } = req.body;
+    const blogId = req.params.blogId;
+    const commentedBy = req.user._id;
+    const comment = await Comment.create({
+        content,
+        commentedBy,
+        blogId,
+    });
+    console.log(comment);
+    return res.redirect(`/blog/${req.params.blogId}`);
 })
 
 module.exports = router;
