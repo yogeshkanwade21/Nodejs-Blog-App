@@ -27,7 +27,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/blog-app')
 
 // Home route
 app.get('/home', async (req, res) => {
-    const allBlogs = await Blog.find({}).sort("createdAt DESC");
+    const allBlogs = await Blog.find({}).sort({createdAt: -1});
     return res.render('home', {
         user: req.user,
         blogs: allBlogs
