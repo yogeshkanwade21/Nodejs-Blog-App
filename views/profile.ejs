@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ('./partials/head', {title : 'Profile'}) %>
+  </head>
+  <body>
+    <%- include ('./partials/nav') %>
+    <div class="container mt-5 text-center" style="background-color: rgb(231, 231, 231); padding: 20px;">
+        <div class="profile-info">
+            <img src="<%= user.profilePicture %>" alt="user-profile-photo" style="border: 1px solid black; border-radius: 50%;" class="mb-3">
+            <h5>Name: <%= user.fullName %></h5>
+            <h5>Email: <%= user.email %></h5>
+            <h5>Role: <%= user.role %></h5>
+            <h5>
+                User since: <%= formatDate(user.createdAt) %>
+            </h5>
+        </div>
+    </div>
+    <div class="userBlogs container mt-4">
+        <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Blog Title</th>
+                <th scope="col">Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% blogs.forEach((blog) => { %>
+            <tr>
+                <th scope="row"><%= blog.number %></th>
+                <td><a href="/blog/<%= blog._id %>"><%= blog.title %></a></td>
+                <td><%= formatDate(blog.createdAt) %></td>
+            </tr>
+        <% }) %>
+    </tbody>
+    </table>
+    </div>
+    <%- include ('./partials/script') %>
+  </body>
+</html>
+
+<% function formatDate(dateString) {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+    const formattedDate = new Date(dateString).toLocaleDateString('en-IN', options);
+    return formattedDate;
+  }
+%>
