@@ -6,6 +6,11 @@
   <body>
     <%- include ('./partials/script') %>
     <div class="container mx-50" >
+        <h3 style="text-align: center; margin-bottom: 10px; margin-top: 30px;">Signup to Y|OG</h3>
+        <div style="text-align: center; margin-bottom: 35px;">
+            Have an account? <a href="/user/signin" style="text-align: center;"> Login </a>
+        </div>
+
         <form action="/user/signup" method="post">
             <div class="my-3">
                 <label
@@ -19,6 +24,7 @@
                     id="fullName"
                     name="fullName"
                     aria-describedby="nameHelp"
+                    required
                 />
             </div>
             <div class="mb-3">
@@ -33,6 +39,7 @@
                     id="email"
                     name="email"
                     aria-describedby="emailHelp"
+                    required
                 />
                 <div id="emailHelp" class="form-text">
                     We'll never share your email with anyone else.
@@ -49,10 +56,11 @@
                     class="form-control"
                     id="password"
                     name="password"
+                    required
                 />
             </div>
-            <button type="submit" class="btn btn-primary">
-                Submit
+            <button type="submit" class="btn btn-success">
+                Sign Up
             </button>
         </form>
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include ('./partials/head', {title : 'Sign In'}) %>
+    <%- include ('./partials/head', {title : 'Login'}) %>
   </head>
   <body>
     <%- include ('./partials/script') %>
@@ -12,7 +12,11 @@
             </div>
         </div>
     <% } %>
-    <div class="container mx-50" >
+    <div class="container mx-50">
+        <h3 style="text-align: center; margin-bottom: 10px; margin-top: 30px;">Login to Y|OG</h3>
+        <div style="text-align: center; margin-bottom: 35px;">
+            Don't have an account? <a href="/user/signup" style="text-align: center;"> Sign up </a>
+        </div>
         <form action="/user/signin" method="post">
 
             <div class="my-3">
@@ -27,6 +31,7 @@
                     id="email"
                     name="email"
                     aria-describedby="emailHelp"
+                    required
                 />
             </div>
 
@@ -41,11 +46,12 @@
                     class="form-control"
                     id="password"
                     name="password"
+                    required
                 />
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                Sign In
+            <button type="submit" class="btn btn-success">
+                Login
             </button>
 
         </form>
