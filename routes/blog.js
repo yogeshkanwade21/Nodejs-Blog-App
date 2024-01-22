@@ -66,4 +66,23 @@ router.post('/comment/:blogId', async (req, res) => {
     return res.redirect(`/blog/${req.params.blogId}`);
 })
 
+// delete blog from user profile page
+router.delete('/:blogId', async (req, res) => {
+    const blogToBeDeleted = req.params.blogId;
+    console.log(blogToBeDeleted);
+    try {
+        const result = await Blog.deleteOne({ _id: blogToBeDeleted });
+
+        if (result.deletedCount > 0) {
+            console.log('route: deleted successfully');
+            res.status(200).json({ message: 'Blog deleted successfully' });
+        } else {
+            console.log('no matching blog found');
+            res.status(404).json({ message: 'No matching blog found' });
+        }
+    } catch (error) {
+        console.log('catch block of delete blog route: ', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+})
 module.exports = router;
