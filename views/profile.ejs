@@ -4,6 +4,39 @@
     <%- include ('./partials/head', {title : 'Profile'}) %>
   </head>
   <body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    delteBlogId = button.dataset.blogId.split('-')[1];
+
+                    // make delte request
+                    fetch(`/blog/${delteBlogId}`, {
+                            method : 'DELETE',
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to delete blog');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data);
+        
+                        if (data){
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Catch block of fetch method:', error);
+                    });
+                })
+            })           
+        })
+    </script>
+
     <%- include ('./partials/nav') %>
     <div class="container mt-5 text-center" style="background-color: rgb(231, 231, 231); padding: 20px;">
         <div class="profile-info">
@@ -31,6 +64,11 @@
                 <th scope="row"><%= blog.number %></th>
                 <td><a href="/blog/<%= blog._id %>"><%= blog.title %></a></td>
                 <td><%= formatDate(blog.createdAt) %></td>
+                <td>
+                    <button class="btn btn-danger delete-button" type="button" style="font-size: 13px;" data-blog-id="deleteBlog-<%= blog._id %>">
+                        Delete
+                    </button>
+                </td>
             </tr>
         <% }) %>
     </tbody>
