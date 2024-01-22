@@ -43,23 +43,31 @@ router.get('/logout', (req, res) => {
     res.clearCookie("token").redirect('/home');
 })
 
-router.get('/profile', async (req, res) => {
+router.get('/profile/:userId', async (req, res) => {
     if(req.user){
-        const profileUser = await User.findOne({ _id: req.user._id});
-        const blogs = await Blog.find({ createdBy: profileUser._id}).sort({'createdAt': -1});
-        const profileBlogs = blogs.map((blog, index) => (
-            {
-                number: index + 1,
-                title: blog.title,
-                createdAt: blog.createdAt,
-                _id: blog._id
-            }
-        ));
-        // console.log('dynamicBlogs here', profileBlogs);
+        const ownUser = await User.findOne({ _id: req.user._id});
+        const visitingUser = await User.findOne({ _id: req.params.userId});
+        if (ownUser._id.toString() === visitingUser._id.toString()) {
+            const blogs = await Blog.find({ createdBy: ownUser._id}).sort({'createdAt': -1});
+            const profileBlogs = blogs.map((blog, index) => (
+                {
+                    number: index + 1,
+                    title: blog.title,
+                    createdAt: blog.createdAt,
+                    _id: blog._id
+                }
+            ));
+            console.log('dynamicBlogs here', profileBlogs);
+            return res.render('profile', {
+                user: ownUser,
+                blogs: profileBlogs
+        })
+        }
         return res.render('profile', {
-            user: profileUser,
-            blogs: profileBlogs
-    })
+            user: visitingUser,
+            blogs: null,
+        })
+
     } else {
         res.redirect('/home');
     }
