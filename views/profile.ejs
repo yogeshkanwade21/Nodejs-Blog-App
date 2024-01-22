@@ -49,6 +49,8 @@
             </h5>
         </div>
     </div>
+    <% if (blogs.length > 0) { %>
+    <h5 style="text-align: center; margin-top: 15px;">Published Blogs </h5>
     <div class="userBlogs container mt-4">
         <table class="table">
         <thead>
@@ -74,6 +76,10 @@
     </tbody>
     </table>
     </div>
+
+    <% } else { %>
+        <h5 style="text-align: center; margin-top: 15px;">Published Blogs will appear here</h5>
+    <% } %>
     <%- include ('./partials/script') %>
   </body>
 </html>
