@@ -41,12 +41,21 @@
     <div class="container mt-5 text-center" style="background-color: rgb(231, 231, 231); padding: 20px;">
         <div class="profile-info">
             <img src="<%= user.profilePicture %>" alt="user-profile-photo" style="border: 1px solid black; border-radius: 50%;" class="mb-3">
-            <h5>Name: <%= user.fullName %></h5>
-            <h5>Email: <%= user.email %></h5>
-            <h5>Role: <%= user.role %></h5>
-            <h5>
-                User since: <%= formatDate(user.createdAt) %>
-            </h5>
+            <% if (userProfile) { %>
+                <h5>Name: <%= userProfile.fullName %></h5>
+                <h5>Email: <%= userProfile.email %></h5>
+                <h5>Role: <%= userProfile.role %></h5>
+                <h5>
+                    User since: <%= formatDate(userProfile.createdAt) %>
+                </h5>
+            <% } else { %>
+                <h5>Name: <%= user.fullName %></h5>
+                <h5>Email: <%= user.email %></h5>
+                <h5>Role: <%= user.role %></h5>
+                <h5>
+                    User since: <%= formatDate(user.createdAt) %>
+                </h5>
+            <% } %>
         </div>
     </div>
     <% if (blogs && blogs.length > 0) { %>

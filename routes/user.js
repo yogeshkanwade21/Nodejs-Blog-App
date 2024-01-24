@@ -45,10 +45,10 @@ router.get('/logout', (req, res) => {
 
 router.get('/profile/:userId', async (req, res) => {
     if(req.user){
-        const ownUser = await User.findOne({ _id: req.user._id});
-        const visitingUser = await User.findOne({ _id: req.params.userId});
-        if (ownUser._id.toString() === visitingUser._id.toString()) {
-            const blogs = await Blog.find({ createdBy: ownUser._id}).sort({'createdAt': -1});
+        const user = await User.findOne({ _id: req.user._id});
+        const userProfile = await User.findOne({ _id: req.params.userId});
+        if (user._id.toString() === userProfile._id.toString()) {
+            const blogs = await Blog.find({ createdBy: user._id}).sort({'createdAt': -1});
             const profileBlogs = blogs.map((blog, index) => (
                 {
                     number: index + 1,
@@ -57,14 +57,16 @@ router.get('/profile/:userId', async (req, res) => {
                     _id: blog._id
                 }
             ));
-            console.log('dynamicBlogs here', profileBlogs);
+            // console.log('dynamicBlogs here', profileBlogs);
             return res.render('profile', {
-                user: ownUser,
+                user: user,
+                userProfile : null,
                 blogs: profileBlogs
         })
         }
         return res.render('profile', {
-            user: visitingUser,
+            user: user,
+            userProfile : userProfile,
             blogs: null,
         })
 
